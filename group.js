@@ -2,6 +2,28 @@
 
 const { Wechaty } = require('wechaty'); // import { Wechaty } from 'wechaty'
 const QrcodeTerminal = require('qrcode-terminal');
+const colors = require('colors/safe');
+
+const outMemberList = (groups) => {
+  for (let i = 0; i < groups.length; i += 1) {
+    const group = groups[i];
+    const memberList = group.users;
+    // eslint-disable-next-line no-console
+    console.log(colors.green(`Members of ${group.topic}`));
+    for (let memberId = 0; memberId < memberList.length; memberId += 1) {
+      const member = memberList[memberId];
+      if (member && member.payload) {
+        if (member.payload.alias) {
+          // eslint-disable-next-line no-console
+          console.log(member.payload.alias);
+        } else {
+          // eslint-disable-next-line no-console
+          console.log(member.payload.name);
+        }
+      }
+    }
+  }
+};
 
 const fun = async (groupName) => {
   const bot = Wechaty.instance({
@@ -30,24 +52,21 @@ const fun = async (groupName) => {
     tmpRoomList = await bot.Room.findAll();
     resolve(tmpRoomList);
   });
-  const memberList = await new Promise(async (resolve) => {
+  const groupList = await new Promise(async (resolve) => {
+    const listOfMemberList = [];
     for (let i = 0; i < roomList.length; i += 1) {
       if (roomList[i].payload.topic.indexOf(groupName) >= 0) {
-        resolve(roomList[i].memberList());
+        listOfMemberList.push({
+          topic: roomList[i].payload.topic,
+          // eslint-disable-next-line no-await-in-loop
+          users: await roomList[i].memberList(),
+        });
       }
     }
+    resolve(listOfMemberList);
   });
-  for (let i = 0; i < memberList.length; i += 1) {
-    if (memberList[i] && memberList[i].payload) {
-      if (memberList[i].payload.alias) {
-        // eslint-disable-next-line no-console
-        console.log(memberList[i].payload.alias);
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(memberList[i].payload.name);
-      }
-    }
-  }
+  outMemberList(groupList);
+
   process.exit(0);
 };
 

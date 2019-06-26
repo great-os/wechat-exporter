@@ -1,16 +1,16 @@
 {
   "name": "wechat-exporter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tool to export your wechat info",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "bin": {
     "wegroup": "./group.js"
   },
   "author": "greatbody",
   "license": "MIT",
   "dependencies": {
+    "colors": "^1.3.3",
     "qrcode-terminal": "^0.12.0",
     "wechaty": "^0.26.1"
   },
