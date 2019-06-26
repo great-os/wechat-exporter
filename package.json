@@ -1,0 +1,22 @@
+{
+  "name": "wechat-exporter",
+  "version": "0.0.1",
+  "description": "A tool to export your wechat info",
+  "main": "index.js",
+  "scripts": {
+  },
+  "bin": {
+    "wegroup": "./group.js"
+  },
+  "author": "greatbody",
+  "license": "MIT",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "wechaty": "^0.26.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0"
+  }
+}
